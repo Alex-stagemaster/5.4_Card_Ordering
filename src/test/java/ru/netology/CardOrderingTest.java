@@ -1,14 +1,24 @@
+package ru.netology;
+
 import com.codeborne.selenide.SelenideElement;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class CardOrderingTest {
+
+    SelenideElement form;
+
+    @BeforeEach
+    void setUp() {
+        form = $(".form");
+        open("http://localhost:9999");
+    }
+
     @Test
     void shouldSubmit() {
-        open("http://localhost:9999");
-        SelenideElement form = $(".form");
         form.$("[data-test-id=name] input").setValue("Иван Иванов");
         form.$("[data-test-id=phone] input").setValue("+79123456789");
         form.$("[data-test-id=agreement]").click();
@@ -18,8 +28,6 @@ public class CardOrderingTest {
 
     @Test
     void shouldSubmitWithHyphen() {
-        open("http://localhost:9999");
-        SelenideElement form = $(".form");
         form.$("[data-test-id=name] input").setValue("Иван Иванов-Иванов");
         form.$("[data-test-id=phone] input").setValue("+79123456789");
         form.$("[data-test-id=agreement]").click();
@@ -29,16 +37,12 @@ public class CardOrderingTest {
 
     @Test
     void shouldErrorEmptyForm() {
-        open("http://localhost:9999");
-        SelenideElement form = $(".form");
         form.$("[type='button']").click();
         form.$(".input_theme_alfa-on-white.input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
     }
 
     @Test
     void shouldErrorEmptyName() {
-        open("http://localhost:9999");
-        SelenideElement form = $(".form");
         form.$("[data-test-id=phone] input").setValue("+79123456789");
         form.$("[data-test-id=agreement]").click();
         form.$("[type='button']").click();
@@ -47,8 +51,6 @@ public class CardOrderingTest {
 
     @Test
     void shouldErrorEmptyPhone() {
-        open("http://localhost:9999");
-        SelenideElement form = $(".form");
         form.$("[data-test-id=name] input").setValue("Иван Иванов");
         form.$("[data-test-id=agreement]").click();
         form.$("[type='button']").click();
@@ -57,18 +59,14 @@ public class CardOrderingTest {
 
     @Test
     void shouldErrorCheckboxNotChecked(){
-        open("http://localhost:9999");
-        SelenideElement form = $(".form");
         form.$("[data-test-id=name] input").setValue("Иван Иванов");
         form.$("[data-test-id=phone] input").setValue("+79123456789");
         form.$(".button").click();
-        $(".input_invalid[data-test-id=agreement]").shouldHave(cssValue("color", "rgba(255, 92, 92, 1)"));
+        form.$(".input_invalid[data-test-id=agreement]").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй"));
     }
 
     @Test
     void shouldErrorWrongName() {
-        open("http://localhost:9999");
-        SelenideElement form = $(".form");
         form.$("[data-test-id=name] input").setValue("Ivan Ivanov");
         form.$("[data-test-id=phone] input").setValue("+79123456789");
         form.$("[data-test-id=agreement]").click();
@@ -78,8 +76,6 @@ public class CardOrderingTest {
 
     @Test
     void shouldErrorSpecialSymbolName() {
-        open("http://localhost:9999");
-        SelenideElement form = $(".form");
         form.$("[data-test-id=name] input").setValue("!");
         form.$("[data-test-id=phone] input").setValue("+79123456789");
         form.$("[data-test-id=agreement]").click();
@@ -89,8 +85,6 @@ public class CardOrderingTest {
 
     @Test
     void shouldErrorWrongPhone() {
-        open("http://localhost:9999");
-        SelenideElement form = $(".form");
         form.$("[data-test-id=name] input").setValue("Иван Иванов");
         form.$("[data-test-id=phone] input").setValue("+79123456789");
         form.$("[data-test-id=agreement]").click();
