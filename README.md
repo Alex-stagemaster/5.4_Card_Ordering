@@ -1,0 +1,1 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/schewg70w5kla690/branch/master?svg=true)](https://ci.appveyor.com/project/Alex-stagemaster/5-4-card-ordering/branch/master)
