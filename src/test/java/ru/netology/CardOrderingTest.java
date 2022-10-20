@@ -62,7 +62,7 @@ public class CardOrderingTest {
         form.$("[data-test-id=name] input").setValue("Иван Иванов");
         form.$("[data-test-id=phone] input").setValue("+79123456789");
         form.$(".button").click();
-        form.$(".input_theme_alfa-on-white.input_invalid .input__sub").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй"));
+        $(".input_invalid[data-test-id=agreement]").shouldHave(cssValue("color", "rgba(255, 92, 92, 1)"));
     }
 
     @Test
