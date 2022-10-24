@@ -4,20 +4,21 @@ import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
+
 
 
 
 public class CardOrderingTest {
 
 
-
-    @BeforeEach
-    public void setUp() {
+     @BeforeEach
+       public void setUp() {
         open("http://localhost:9999");
 
     }
+
 
     @Test
     void shouldSubmit() {
@@ -37,7 +38,7 @@ public class CardOrderingTest {
         form.$("[data-test-id='phone'] input").setValue("+79123456789");
         form.$("[data-test-id='agreement']").click();
         form.$("[type='button']").click();
-        form.$("[data-test-id=order-success]").
+        $("[data-test-id=order-success]").
                 shouldHave(exactText("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время."));
     }
 
@@ -69,8 +70,10 @@ public class CardOrderingTest {
         form.$("[data-test-id='name'] input").setValue("Иван Иванов");
         form.$("[data-test-id='phone'] input").setValue("+79123456789");
         form.$(".button").click();
-        form.$("[data-test-id='agreement'].input_invalid .input__sub").
-                shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй"));
+        form.$(".input_invalid").$(".checkbox__text").
+                shouldHave(exactText("Я соглашаюсь с условиями обработки" +
+                        " и использования моих персональных данных" +
+                        " и разрешаю сделать запрос в бюро кредитных историй"));
     }
 
     @Test
@@ -98,11 +101,11 @@ public class CardOrderingTest {
     @Test
     void shouldErrorWrongPhone() {
         SelenideElement form = $("form");
-        form.$("[data-test-id='name'] input").setValue("Иван Иванов");
-        form.$("[data-test-id='phone'] input").setValue("9123456789");
-        form.$("[data-test-id='agreement']").click();
+        form.$("[data-test-id=name] input").setValue("Иван Иванов");
+        form.$("[data-test-id=phone] input").setValue("71234567890199");
+        form.$("[data-test-id=agreement]").click();
         form.$("[type='button']").click();
-        form.$("[data-test-id='phone'].input_invalid .input__sub").
-                shouldHave(exactText("Телефон указан неверно. Должно быть 11 цифр, например, +79123456789."));
+        form.$("[data-test-id=phone].input_invalid .input__sub").
+                shouldHave(exactText("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
     }
 }
